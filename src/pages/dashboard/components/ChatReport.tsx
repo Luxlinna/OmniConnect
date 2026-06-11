@@ -508,22 +508,22 @@ export default function ChatReport({ partnerId }: Props) {
                 </div>
 
                 {threadLoading ? <Spinner /> : thread.length === 0 ? <EmptyState /> : (
-                  <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
+                  <div className="max-h-[500px] overflow-y-auto pr-1">
                     {thread.map((msg) => {
                       const isOut = msg.direction === "outbound";
                       const meta = chMeta(msg.channel);
                       return (
-                        <div key={msg.id} className={`flex gap-2.5 ${isOut ? "flex-row-reverse" : ""}`}>
-                          <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: (meta?.color ?? "#999") + "20" }}>
-                            <i className={`${meta?.icon ?? "ri-message-line"} text-[10px]`} style={{ color: meta?.color ?? "#999" }} />
+                        <div key={msg.id} className={`flex items-center gap-2 py-1 px-2 rounded-lg hover:bg-background-50 transition-colors ${isOut ? "flex-row-reverse" : ""}`}>
+                          <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: (meta?.color ?? "#999") + "20" }}>
+                            <i className={`${meta?.icon ?? "ri-message-line"} text-[9px]`} style={{ color: meta?.color ?? "#999" }} />
                           </div>
-                          <div className={`max-w-[72%] flex flex-col ${isOut ? "items-end" : "items-start"}`}>
-                            <div className={`rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed break-words ${isOut ? "bg-primary-500 text-white rounded-tr-sm" : "bg-background-50 border border-background-200/70 text-foreground-800 rounded-tl-sm"}`}>
+                          <div className={`flex-1 flex items-center gap-2 min-w-0 ${isOut ? "flex-row-reverse" : ""}`}>
+                            <span className={`text-xs px-2.5 py-1 rounded-full truncate max-w-[60%] ${isOut ? "bg-primary-500 text-white" : "bg-background-100 border border-background-200/70 text-foreground-800"}`}>
                               {msg.content_type !== "text"
-                                ? <span className="flex items-center gap-1.5 italic opacity-80"><i className={mediaIcon(msg.content_type)} />{mediaLabel(msg.content_type)}</span>
-                                : (msg.content || <span className="italic opacity-60">Empty message</span>)}
-                            </div>
-                            <span className="text-[10px] text-foreground-300 mt-0.5 px-1">{fmtLong(msg.created_at)}</span>
+                                ? <span className="flex items-center gap-1 italic opacity-80"><i className={mediaIcon(msg.content_type)} />{mediaLabel(msg.content_type)}</span>
+                                : (msg.content || <span className="italic opacity-60">Empty</span>)}
+                            </span>
+                            <span className="text-[10px] text-foreground-300 whitespace-nowrap flex-shrink-0">{fmtShort(msg.created_at)}</span>
                           </div>
                         </div>
                       );
